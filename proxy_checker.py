@@ -36,7 +36,3 @@ for t in threads:
     t.join()
 
 print("Valid proxies saved to valid_proxies.txt")
-
-with open(valid_proxy, "w", encoding="utf-8") as f:
-        for p in valid:
-            f.write(f"{p}\n")

@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
+import streamlit as st
 
 
 
-def details(businessName):
+def details(address):
     l = {}
     data = []
-    base_url = 'https://api.scrapingdog.com/scrape?dynamic=false&api_key=6746c4f6dfbccc0cb181718c&url=https://www.yelp.com/biz/'+ str(businessName)
+    base_url = f'https://api.scrapingdog.com/scrape?dynamic=false&api_key=6746c4f6dfbccc0cb181718c&url={address}'
     r = requests.get(base_url).text
     print(businessName)
     print(base_url)
@@ -55,7 +56,21 @@ def details(businessName):
     l={}
     return data
 
-loc = ["fremont-house-mariposa",'northshore-boardwear-oakhurst-2','sierra-mercantile-oakhurst']
+st.title("Business Details Scraper")
 
+tasks = st.number_input("Enter Number of Businesses to be scraped:", min_value=1, step=1, value=1)
 
-print(details('butlers-pantry-stowe-4'))
+queue = []
+for i in range(tasks):
+    url_address = st.text_input(f"Please Enter Business URL #{i+1}:", key=f"url_{i}")
+    if url_address:
+        queue.append(url_address)
+
+if st.button("Scrape"):
+    all_results = []
+    for lo in queue:
+        result = details(lo)
+        all_results.extend(result)
+
+    st.write("Scraping Results:")
+    st.json(all_results)

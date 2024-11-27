@@ -1,33 +1,30 @@
 from os import system
 from bs4 import BeautifulSoup
 import requests
+from urllib.parse import urlencode
 
-
-with open("valid_proxies.txt","r") as f:
-    proxy = f.read().split("\n")
-
-var = len(proxy)
 
 
 def get_top_business_names(total,term,location,output_file):
-    url = f"https://www.yelp.com/search?find_desc={term}&find_loc={location}"
-    # base_url = f"https://api.scrapingdog.com/scrape?dynamic=false&api_key=6746c4f6dfbccc0cb181718c&url={val}"
+    url = f"https://www.yelp.com/search/snippet?find_desc={term}&find_loc={location}"
+    base_url = f"https://api.scrapingdog.com/scrape?dynamic=false&api_key=6746c4f6dfbccc0cb181718c&url={url}"
+    params = {
+        "find_desc":term,
+        "find_loc": location,
+        "request_origin":"user"
+        }
+    params=urlencode(params)
     page = 0
 
     pages=[]
     counter = 0
     while page <= total:
-        
-        current = requests.get(url,proxies={"http":proxy[counter],"https":proxy[counter]})
+        current = requests.get(base_url)
         print(current.status_code)
         pages.append(current)
 
         print('Page: ',page+1,' scanned')
         page+=1
-        
-    
-        # print("Failed")
-        # print(current.status_code)
         
         counter+=1
         counter%var
