@@ -1,22 +1,21 @@
 import csv
 
-# Sample raw data
+
 data = [
     [{'name': 'Fremont House', 'Phone': 'Business websitefremonthouseca.com', 'stars': '4.7 star rating', 
       'Address': '5030 Hwy 140 Mariposa, CA 95338', 'Number of Reviews': '12 reviews', 'Hours of Operation': '9:00 AM - 5:30 PM'}],
     [{'name': 'Northshore Boardwear', 'Phone': '(559) 642-3898', 'stars': '3.7 star rating', 
       'Address': '40034 Highway 49 Ste A6 Oakhurst, CA 93644', 'Number of Reviews': '7 reviews', 'Hours of Operation': '10:00 AM - 5:30 PM'}],
-    [{'name': None, 'Phone': None, 'stars': None, 'Address': None, 'Number of Reviews': 0, 'Hours of Operation': None}]
 ]
 
 def convert_to_csv(raw_data, output_file="business_data.csv"):
-    # Flatten the raw data
+    
     flattened_data = [item[0] for item in raw_data if item[0].get('name')]
 
-    # Define CSV headers
+    
     headers = ['Name', 'Phone', 'Stars', 'Address', 'Number of Reviews', 'Hours of Operation']
 
-    # Write to CSV
+    
     with open(output_file, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=headers)
         writer.writeheader()
@@ -32,5 +31,5 @@ def convert_to_csv(raw_data, output_file="business_data.csv"):
 
     print(f"Data successfully written to {output_file}")
 
-# Usage
+
 convert_to_csv(data, "business_data.csv")
